@@ -109,8 +109,40 @@ const getCountryData = function (country) {
     });
 };
 
-btn.addEventListener('click', function () {
-  getCountryData('portugal');
-});
+// btn.addEventListener('click', function () {
+//   getCountryData('portugal');
+// });
 
 // getCountryData('akakakak');
+
+// coding challenge #1
+
+const whereAmI = function (lat, lng) {
+  fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`)
+    .then(data => {
+      data.json(data);
+      console.log(data);
+      return data;
+    })
+    // .then(data => console.log(data))
+    .then(data => {
+      console.log(data);
+
+      if (data.error?.code === '006') throw new Error('wait for atleast 1 sec');
+
+      if (data.error?.code === '018') throw new Error('Enter valid input');
+
+      console.log(`You are in ${data.city}, ${data.country}`);
+
+      getCountryData(data.country);
+    })
+    .catch(err => console.error(`Something went wrong ${err}`));
+};
+
+btn.addEventListener('click', function () {
+  //   whereAmI(52.508, 13.381);
+  //   whereAmI(19.037, 72.873);
+  whereAmI(-33.933, 18.474);
+
+  //   whereAmI(11, 'alksjs');
+});
